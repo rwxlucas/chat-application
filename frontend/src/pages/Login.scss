@@ -1,0 +1,84 @@
+.login {
+	width: 100%;
+	height: 100vh;
+	background-color: #000;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	&-box {
+		width: 300px;
+		height: 450px;
+		border-radius: 10px;
+		border: 2px solid #fff;
+		&-header {
+			text-align: center;
+			font-size: 24px;
+			color: #fff;
+			margin-top: 50px;
+		}
+		&-input {
+			width: 90%;
+			margin: 0 auto;
+			> input {
+				width: 100%;
+				height: 40px;
+				background-color: #000;
+				color: #fff;
+				border: none;
+				outline: none;
+				border-bottom: 2px solid #fff;
+				margin-top: 30px;
+				&:focus {
+					border-bottom: 2px solid orangered;
+				}
+				&::placeholder {
+					color: #fff;
+					opacity: 1;
+				}
+			}
+		}
+		&-button {
+			width: 90%;
+			margin: 0 auto;
+			margin-top: 50px;
+			> button {
+				cursor: pointer;
+				background-color: #000;
+				color: #fff;
+				font-size: 18px;
+				width: 100%;
+				height: 40px;
+				border-radius: 5px;
+				border: none;
+				border: 2px solid #fff;
+				text-align: center;
+				&:active {
+					border: 2px solid orangered;
+					color: orangered;
+				}
+			}
+		}
+		&-footer {
+			width: 90%;
+			margin: 0 auto;
+			margin-top: 20px;
+			font-size: 13px;
+			text-align: right;
+			color: #fff;
+			> div {
+				> a {
+					text-decoration: none;
+					color: #fff;
+					> span {
+						cursor: pointer;
+						user-select: none;
+						&:hover {
+							text-decoration: underline;
+							text-decoration-color: orangered;
+						}
+					}
+				}
+			}
+		}
+	}
+}
