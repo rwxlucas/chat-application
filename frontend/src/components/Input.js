@@ -3,8 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import './Input.scss'
 
-const Input = ({icon, placeholder}) => {
-	const [inputValue, setInputValue] = useState('')
+const Input = ({icon, placeholder, inputValue, setInputValue}) => {
 
 	return (
 		<div className="input" >
