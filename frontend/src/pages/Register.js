@@ -22,7 +22,7 @@ const Register = ({ login, ...rest }) => {
 				setPassword('');
 				setEmail('');
 				e.target.username.focus();
-				alert(error.response.data.message);
+				if(error.response) alert(error.response.data.message);
 			}
 		}
 	}

@@ -13,13 +13,14 @@ const Login = (props) => {
 		e.preventDefault();
 		try {
 			const loginRequest = await authService.login(username, password);
+			localStorage.setItem("xauthorization", loginRequest.data.xauthorization);
 			props.login(loginRequest.data.xauthorization);
 		} catch (error) {
 			if (error) {
 				setUsername('');
 				setPassword('');
 				e.target.username.focus();
-				alert(error.response.data.message)
+				if(error.response) alert(error.response.data.message);
 			}
 		}
 	}
