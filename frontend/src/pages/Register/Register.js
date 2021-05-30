@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux';
-import { loginAction, logoutAction } from '../redux/actions/authAction'
-import authService from '../services/authService'
+import { loginAction, logoutAction } from '../../redux/actions/authAction'
+import authService from '../../services/authService'
 import { Link, useHistory } from 'react-router-dom'
-import "./Login.scss"
+import "../Login/Login.scss"
 
 const Register = ({ login, ...rest }) => {
 	const [username, setUsername] = useState('')

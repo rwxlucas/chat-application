@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { logoutAction } from '../redux/actions/authAction'
+import { logoutAction } from '../../redux/actions/authAction'
 import { connect } from 'react-redux';
-import Input from '../components/Input/Input';
+import Input from '../../components/Input/Input';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBookmark, faSquare } from '@fortawesome/free-regular-svg-icons'
+import ChatDisplay from '../../components/ChatDisplay/ChatDisplay';
+import LittleMenu from '../../components/LittleMenu/LittleMenu';
 
 import './Dashboard.scss';
-import ChatDisplay from '../components/ChatDisplay/ChatDisplay';
-import LittleMenu from '../components/LittleMenu/LittleMenu';
 
 const Dashboard = ({ logout, ...rest }) => {
 

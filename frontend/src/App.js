@@ -1,7 +1,7 @@
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
-import Login from './pages/Login'
-import Register from './pages/Register';
-import Dashboard from './pages/Dashboard';
+import Login from './pages/Login/Login'
+import Register from './pages/Register/Register';
+import Dashboard from './pages/Dashboard/Dashboard';
 import { connect } from 'react-redux';
 import ProtectedRoute from './components/auth/ProtectedRoute'
 
