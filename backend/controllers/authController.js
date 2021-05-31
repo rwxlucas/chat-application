@@ -20,7 +20,7 @@ const login = async (req, res) => {
 	if (!hasUser) return res.status(404).json({ message: 'User not found!' });
 	const verifyPassword = await bcrypt.compare(password, hasUser.password);
 	if (!verifyPassword) return res.status(403).json({ message: 'Incorrect password', status: 403 });
-	return res.status(200).json({ xauthorization: jwt.sign(hasUser.id, JWT_SECRET) });
+	return res.status(200).json({ xauthorization: jwt.sign({id: hasUser.id}, JWT_SECRET, { expiresIn: 86400 }) });
 }
 
 module.exports = {

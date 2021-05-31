@@ -3,7 +3,7 @@ import Login from './pages/Login/Login'
 import Register from './pages/Register/Register';
 import Dashboard from './pages/Dashboard/Dashboard';
 import { connect } from 'react-redux';
-import ProtectedRoute from './components/auth/ProtectedRoute'
+import ProtectedRoute from './auth/ProtectedRoute'
 
 import './App.scss';
 

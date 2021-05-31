@@ -3,36 +3,47 @@ import { logoutAction } from '../../redux/actions/authAction'
 import { connect } from 'react-redux';
 import Input from '../../components/Input/Input';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBookmark, faSquare } from '@fortawesome/free-regular-svg-icons'
+import { faBookmark, faSquare, faArrowAltCircleLeft } from '@fortawesome/free-regular-svg-icons'
 import ChatDisplay from '../../components/ChatDisplay/ChatDisplay';
 import LittleMenu from '../../components/LittleMenu/LittleMenu';
+import SearchFriend from '../../components/SearchFriend/SearchFriend';
+import { searchUser as searchUserService } from '../../services/friendService'
 
 import './Dashboard.scss';
 
 const Dashboard = ({ logout, ...rest }) => {
 
 	const [searchChat, setSearchChat] = useState('')
+	const [searchUser, setSearchUser] = useState('')
+	const [searchUserList, setSearchUserList] = useState([])
 	const [showMenu, setShowMenu] = useState(false)
 	const [toggleChatDiv, setToggleChatDiv] = useState(false)
+	const [toggleAddFriend, setToggleAddFriend] = useState(false)
 
-	const toggleMenu = () => (setShowMenu(!showMenu))
+	const toggleMenu = () => (setShowMenu(!showMenu));
+	const backToChatDiv = () => { setToggleChatDiv(false); setToggleAddFriend(false); setSearchUser('') ;setSearchUserList(null);};
 
-	const chatDivStyle = {
-		transform: toggleChatDiv ? 'translateX(-105%)' : ''
+	const chatDivStyle = { transform: toggleChatDiv ? 'translateX(-105%)' : '' }
+	const addFriendStyle = { transform: toggleAddFriend ? '' : 'translateX(105%)' }
+
+	const addFriendOption = () => { setToggleChatDiv(true); setToggleAddFriend(true); toggleMenu(); };
+
+	const searchUserFunction = async () => {
+		try {
+			const user = await searchUserService(searchUser);
+			if (user.status === 200) setSearchUserList([user.data]);
+		} catch (error) {
+			if(error && error.response) return setSearchUserList([]);
+		}
 	}
+
 	const optionsList = [
-		{
-			name: 'Adicionar um amigo',
-			exec: () => {alert('Adicionar um amigo'); setShowMenu(false); setToggleChatDiv(true); }
-		},
+		{ name: 'Adicionar um amigo', exec: () => { addFriendOption() } },
 		{
 			name: 'Remover um amigo',
 			exec: () => { alert('Remover um amigo'); setShowMenu(false); setToggleChatDiv(true); }
 		},
-		{
-			name: 'Logout',
-			exec: () => logout()
-		},
+		{ name: 'Logout', exec: () => logout() },
 	]
 
 	return (
@@ -47,8 +58,6 @@ const Dashboard = ({ logout, ...rest }) => {
 
 					<div className={'dashboard-leftDiv-header-options'} >
 						<FontAwesomeIcon onClick={toggleMenu} icon={faSquare} />
-						{/* { showMenu ? <LittleMenu open={} options={['Adicionar um amigo', 'Remover um amigo']} /> : null } */}
-						{/* <LittleMenu open={showMenu} options={['Adicionar um amigo', 'Remover um amigo', 'Logout']} /> */}
 						<LittleMenu open={showMenu} options={optionsList} />
 					</div>
 				</div>
@@ -72,6 +81,17 @@ const Dashboard = ({ logout, ...rest }) => {
 							time={'08:03'}
 						/>
 					</div>
+				</div>
+
+				<div className={'dashboard-leftDiv-addFriend'} style={addFriendStyle} >
+					<SearchFriend
+						back={backToChatDiv}
+						icon={faArrowAltCircleLeft}
+						value={searchUser}
+						setValue={setSearchUser}
+						exec={searchUserFunction}
+						users={searchUserList}
+					/>
 				</div>
 			</div>
 
