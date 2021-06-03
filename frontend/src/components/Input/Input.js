@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import React from 'react'
 
 import './Input.scss'
 
@@ -15,7 +14,7 @@ const Input = ({ icon, placeholder, inputValue, setInputValue }) => {
 				placeholder={placeholder ? placeholder : ''}
 				value={inputValue}
 				onChange={e => setInputValue(e.target.value)} />
-			{icon ? <FontAwesomeIcon icon={icon} /> : null}
+			{icon ? <i className={icon}></i> : null}
 		</div>
 	)
 }

@@ -38,6 +38,16 @@ $leftDivSearchChatHeight: 60px;
 		background-color: #222;
 		overflow: hidden;
 		position: relative;
+
+		&-settings {
+			height: 100%;
+			width: 100%;
+			position: absolute;
+			z-index: 1;
+			background-color: #333;
+			transition: transform ease-in-out 0.3s;
+		}
+
 		&-header {
 			background-color: #333;
 			height: $leftDivHeaderHeight;
@@ -51,6 +61,7 @@ $leftDivSearchChatHeight: 60px;
 				height: 50px;
 				border-radius: 50%;
 				margin-right: 20px;
+				cursor: pointer;
 				border: 1px solid #222;
 			}
 			&-title {
@@ -60,6 +71,9 @@ $leftDivSearchChatHeight: 60px;
 				margin-left: auto;
 				cursor: pointer;
 				position: relative;
+				> i {
+					font-size: 20px;
+				}
 			}
 		}
 		&-chatDiv {
@@ -130,6 +144,12 @@ $leftDivSearchChatHeight: 60px;
 					}
 				}
 			}
+		}
+		&-removeFriend {
+			width: 100%;
+			transition: transform ease-in-out 0.5s;
+			position: absolute;
+			top: $leftDivHeaderHeight;
 		}
 	}
 	&-rightDiv {

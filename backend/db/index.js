@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const dbInit = () => {
-	mongoose.connect('mongodb://localhost:27017/chat-app', 
+	mongoose.connect('mongodb://127.0.0.1:27017/chat-app', 
 		{
 			useNewUrlParser: true, 
 			useUnifiedTopology: true

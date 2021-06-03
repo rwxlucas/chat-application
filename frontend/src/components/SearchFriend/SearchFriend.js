@@ -8,31 +8,36 @@ const SearchFriend = ({ value, setValue, back, icon, exec, users }) => {
 
 	const renderResponse = () => {
 		if (users === null) return null;
-		if (users.length > 0) return (
-			<div>
-				alooo
+		if (users.length > 0) return users.map(((user, index) =>
+			<div key={`addFriendDivResponse${index}`} >
 				<div>
-					<img src={users[0].image} alt={`${users[0].username} photo`} />
+					<img src={user.image} alt={`${user.username} photo`} />
 				</div>
 				<div>
-					{users[0].username}
+					{user.username}
 				</div>
 			</div>
-		)
+		))
 		else return (<div> User not found! </div>)
 	}
 
 	return (
-		<div className={'addFriend'} >
-			<div className={'addFriend-back'} ><FontAwesomeIcon onClick={back} icon={icon} /></div>
-			<div className={'addFriend-searchInput'} >
-				<Input inputValue={value} setInputValue={setValue} />
-			</div>
-			<div className={'addFriend-submit'} >
-				<button onClick={exec} >Search</button>
-			</div>
+		<div className={'searchDiv'} >
+			<div className={'searchDiv-addFriend'} >
+				<div className={'searchDiv-addFriend-back'} >
+					<i className={icon} onClick={back} ></i>
+				</div>
+				<div className={'searchDiv-addFriend-searchInput'} >
+					<Input inputValue={value} setInputValue={setValue} />
+				</div>
+				<div className={'searchDiv-addFriend-submit'} >
+					<button onClick={exec} >Search</button>
+				</div>
 
-			<div> {renderResponse()} </div>
+			</div>
+			<div className={'searchDiv-usersDiv'} >
+				{renderResponse()}
+			</div>
 		</div>
 	)
 }
