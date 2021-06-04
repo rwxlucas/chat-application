@@ -1,5 +1,6 @@
 const readFileAsync = (file) => {
 	return new Promise((resolve, reject) => {
+		if(!file) return;
 		let reader = new FileReader();
 		reader.onload = () => {
 			resolve(reader.result);

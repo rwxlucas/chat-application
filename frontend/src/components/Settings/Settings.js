@@ -9,6 +9,7 @@ const Settings = ({ back }) => {
 
 	const iconDivStyle = { border: !image ? '1px solid #222' : '' }
 	const imageConfig = async (e) => {
+		if(e.target.files.length < 0) return;
 		const file = e.target.files[0]
 		const uploadedImage = await processFile(file);
 		setImage(`${uploadedImage}`);
