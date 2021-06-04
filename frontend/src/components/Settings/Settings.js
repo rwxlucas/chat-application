@@ -1,19 +1,29 @@
-import React, { useState } from 'react';
-import { processFile } from '../../utils/utils'
-import './Settings.scss';
+import React, { useEffect, useState } from 'react';
+import { processFile } from '../../utils/utils';
+import { connect } from 'react-redux';
+import { setUserInfoAction } from '../../redux/actions/userAction';
+import { setUserInfo as setUserInfoService } from '../../services/userService'
 
-const Settings = ({ back }) => {
+import './Settings.scss';
+const Settings = ({ back, user }) => {
 	const [editName, setEditName] = useState(false);
 	const [editStatus, setEditStatus] = useState(false);
 	const [image, setImage] = useState('');
 
-	const iconDivStyle = { border: !image ? '1px solid #222' : '' }
+	const iconDivStyle = { border: !image ? '1px solid #222' : '' };
 	const imageConfig = async (e) => {
 		if(e.target.files.length < 0) return;
 		const file = e.target.files[0]
 		const uploadedImage = await processFile(file);
 		setImage(`${uploadedImage}`);
-	}
+		const teste = await setUserInfoService('Lucas Faria', 'Programando', uploadedImage);
+		console.log(teste);
+	};
+
+	useEffect(() => {
+		console.log(user)
+	}, [])
+
 	return (
 		<div className={'settings'}>
 			<div className="settings-back">
@@ -39,8 +49,6 @@ const Settings = ({ back }) => {
 					<div><i onClick={() => setEditName(!editName)} className="fas fa-pen"></i></div>
 				</div>
 
-
-
 				<div className={editStatus ? 'active' : ''} >
 					<div >Status</div>
 					<div><i onClick={() => setEditStatus(!editStatus)} className="fas fa-pen"></i></div>
@@ -50,4 +58,11 @@ const Settings = ({ back }) => {
 	)
 }
 
-export default Settings
+const mapDispatchToProps = (dispatch) => ({
+	setUserInfo: (obj) => dispatch(setUserInfoAction(obj))
+});
+const mapStateToProps = (state) => ({
+	user: state.user
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Settings);

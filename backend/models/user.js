@@ -5,6 +5,8 @@ const userSchema = new Schema({
 	password: { type: String, required: true },
 	email: { type: String, required: true },
 	image: { type: String },
+	displayName: { type: String },
+	status: { type: String },
 	friendList: { type: Array },
 	created: { type: Date, default: Date.now }
 });

@@ -1,17 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { logoutAction } from '../../redux/actions/authAction'
 import { connect } from 'react-redux';
 import Input from '../../components/Input/Input';
 import ChatDisplay from '../../components/ChatDisplay/ChatDisplay';
 import LittleMenu from '../../components/LittleMenu/LittleMenu';
 import SearchFriend from '../../components/SearchFriend/SearchFriend';
-import { searchUser as searchUserService } from '../../services/friendService'
-
-import './Dashboard.scss';
 import Settings from '../../components/Settings/Settings';
 import ChatMessages from '../../components/ChatMessages/ChatMessages';
+import { searchUser as searchUserService } from '../../services/friendService';
+import { getUserInfo } from '../../services/userService';
 
-const Dashboard = ({ logout, ...rest }) => {
+import './Dashboard.scss';
+import { setUserInfoAction } from '../../redux/actions/userAction';
+const Dashboard = ({ logout, user, setUserInfo, ...rest }) => {
 
 	const [searchChat, setSearchChat] = useState('');
 	const [searchUser, setSearchUser] = useState('');
@@ -46,6 +47,15 @@ const Dashboard = ({ logout, ...rest }) => {
 		{ name: 'Logout', exec: () => logout() },
 	]
 
+	useEffect(async () => {
+		const userInfo = await getUserInfo();
+		setUserInfo(userInfo.data);
+		console.log(user);
+		return () => {
+			
+		}
+	}, [])
+
 	return (
 		<div className={'dashboard'} >
 			<div className={'dashboard-leftDiv'} >
@@ -53,8 +63,8 @@ const Dashboard = ({ logout, ...rest }) => {
 					<Settings back={setToggleSettingsDiv} />
 				</div>
 				<div className={'dashboard-leftDiv-header'} >
-					<img onClick={() => setToggleSettingsDiv(!toggleSettingsDiv)} alt="" />
-					<div className={'dashboard-leftDiv-header-title'} >Nome da pessoa</div>
+					<img onClick={() => setToggleSettingsDiv(!toggleSettingsDiv)} src={user.image} alt="" />
+					<div className={'dashboard-leftDiv-header-title'} >{user.displayName}</div>
 					<div className={'dashboard-leftDiv-header-options'}  >
 						<i onClick={toggleMenu} className="fas fa-bars"></i>
 						<LittleMenu open={showMenu} options={optionsList} />
@@ -108,7 +118,11 @@ const Dashboard = ({ logout, ...rest }) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-	logout: () => dispatch(logoutAction())
+	logout: () => dispatch(logoutAction()),
+	setUserInfo: (obj) => dispatch(setUserInfoAction(obj))
+});
+const mapStateToProps = (state) => ({
+	user: state.user
 });
 
-export default connect(null, mapDispatchToProps)(Dashboard);
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
