@@ -1,9 +1,16 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { openChatAction, loadMessagesAction } from '../../redux/actions/chatAction'
 import './ChatDisplay.scss'
 
-const ChatDisplay = ({image, name, time, message, active}) => {
+const ChatDisplay = ({image, name, time, message, active, open}) => {
+
+	const openMessagesChat = () => {
+		open(name, image)
+	}
+
 	return (
-		<div className={`chatDisplay ${active ? 'active' : ''}`}>
+		<div onClick={openMessagesChat} className={`chatDisplay ${active ? 'active' : ''}`}>
 			<div>
 				<img src={image} alt={`${name} photo`} />
 			</div>
@@ -20,4 +27,10 @@ const ChatDisplay = ({image, name, time, message, active}) => {
 	)
 }
 
-export default ChatDisplay
+const mapDispatchToProps = (dispatch) => ({
+	open: (name, image) => dispatch(openChatAction(name, image)),
+	loadMessages: (messages) => dispatch(loadMessagesAction(messages))
+});
+
+
+export default connect(null, mapDispatchToProps)(ChatDisplay);
