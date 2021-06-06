@@ -80,7 +80,11 @@ const Dashboard = ({ logout, user, setUserInfo, ...rest }) => {
 					<Settings back={setToggleSettingsDiv} />
 				</div>
 				<div className={'dashboard-leftDiv-header'} >
-					<img onClick={() => setToggleSettingsDiv(!toggleSettingsDiv)} src={user.image} alt="" />
+					{ 
+						user.image ? 
+							<img onClick={() => setToggleSettingsDiv(!toggleSettingsDiv)} src={user.image} alt="" /> : 
+							<div onClick={() => setToggleSettingsDiv(!toggleSettingsDiv)} className={'dashboard-leftDiv-header-withoutImage'}> <i className="fas fa-user"></i> </div>
+					}
 					<div className={'dashboard-leftDiv-header-title'} >{user.displayName}</div>
 					<div className={'dashboard-leftDiv-header-options'}  >
 						{

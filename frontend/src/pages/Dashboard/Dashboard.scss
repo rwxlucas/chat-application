@@ -64,6 +64,18 @@ $leftDivSearchChatHeight: 60px;
 				cursor: pointer;
 				border: 1px solid #222;
 			}
+			&-withoutImage {
+				width: 50px;
+				height: 50px;
+				border-radius: 50%;
+				margin-right: 20px;
+				cursor: pointer;
+				border: 1px solid #222;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				font-size: 15px;
+			}
 			&-title {
 				font-size: 17px;
 			}

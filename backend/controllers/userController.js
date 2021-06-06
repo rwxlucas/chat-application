@@ -12,7 +12,7 @@ const getUserInfo = async (req, res) => {
 			status: user.status ? user.status : ''
 		})
 	} catch (error) {
-		return res.status(500).json({message});
+		return res.status(500).json({error});
 	}
 }
 

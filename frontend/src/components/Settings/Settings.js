@@ -68,7 +68,7 @@ const Settings = ({ back, user, setUserInfo }) => {
 					<div>
 						<i className="fas fa-camera"></i>
 					</div>
-					<img src={user.image} />
+					{ user.image ? <img src={user.image} /> : <i className="fas fa-user"></i> }
 					<label htmlFor="imageUploader">
 					</label>
 					<input onChange={e => imageConfig(e)} accept="image/*" type="file" id="imageUploader" />
