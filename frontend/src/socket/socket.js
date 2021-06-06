@@ -7,7 +7,7 @@ export const socketInit = () => {
 }
 
 export const sendMessage = () => {
-	socket.emit('chat message', 'PICA');
+	socket.emit('chat message', 'aa');
 }
 
 export const disconnectSocket = () => socket.emit('disconnectClient');
