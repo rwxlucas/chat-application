@@ -1,7 +1,13 @@
 import React, { useEffect } from 'react';
-import './FriendRequests.scss';
+import { add } from '../../services/friendService'
+import { connect } from 'react-redux';
+import { removeFriendRequestAction } from '../../redux/actions/userAction';
 
-const FriendRequests = ({ requests, active }) => {
+import './FriendRequests.scss';
+const FriendRequests = ({ requests, removeFriendRequest, active }) => {
+
+	const decline = () => {};
+
 	return (<>
 		<div className={'friendRequestsHeader'} >Friend Requests</div>
 		{
@@ -13,14 +19,21 @@ const FriendRequests = ({ requests, active }) => {
 					<div>
 						<div> {req.name} </div>
 						<div>
-							<div><i className="fas fa-check"></i></div>
-							<div><i className="fas fa-times"></i></div>
+							<div onClick={() => add(req.username)} ><i className="fas fa-check"></i></div>
+							<div onClick={() => removeFriendRequest(req.username)}><i  className="fas fa-times"></i></div>
 						</div>
 					</div>
 				</div>
 			))
 		}
 	</>)
-}
+};
 
-export default FriendRequests
+const mapDispatchToProps = (dispatch) => ({
+	removeFriendRequest: (user) => dispatch(removeFriendRequestAction(user))
+});
+const mapStateToProps = (state) => ({
+	user: state.user
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(FriendRequests);

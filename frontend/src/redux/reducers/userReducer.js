@@ -1,4 +1,4 @@
-import { SET_USER_INFO, ADD_FRIEND_REQUEST } from '../actions/userAction';
+import { SET_USER_INFO, ADD_FRIEND_REQUEST, REMOVE_FRIEND_REQUEST } from '../actions/userAction';
 
 const initialState = {};
 
@@ -12,7 +12,12 @@ export const userReducer = (state = initialState, action) => {
         case ADD_FRIEND_REQUEST:
             return {
                 ...state,
-                friendList: [...state.friendList, action.payload]
+                friendRequests: [...state.friendRequests, action.payload]
+            };
+        case REMOVE_FRIEND_REQUEST:
+            return {
+                ...state,
+                friendRequests: state.friendRequests.filter(item => item.username != action.payload)
             }
         default: return state;
     };

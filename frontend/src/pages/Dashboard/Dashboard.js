@@ -53,15 +53,13 @@ const Dashboard = ({ logout, user, setUserInfo, addFriendRequest, ...rest }) => 
 		{ name: 'Logout', exec: () => {logout(); disconnectSocket(user.username)} },
 	]
 
-	const friendRequest = (payload) => {
-		addFriendRequest(payload);
-	}
+	const friendRequest = (payload) => { addFriendRequest(payload); }
 
 	useEffect(async () => {
 		const userInfo = await getUserInfo();
 		setUserInfo(userInfo.data);
 		socketInit(userInfo.data.username);
-		socket.on('friendRequest', (payload) => friendRequest(payload))
+		socket.on('friendRequest', (payload) => {friendRequest(payload); console.log('alo')})
 	}, [])
 
 	return (
@@ -79,7 +77,7 @@ const Dashboard = ({ logout, user, setUserInfo, addFriendRequest, ...rest }) => 
 					<div className={'dashboard-leftDiv-header-title'} >{user.displayName}</div>
 					<div className={'dashboard-leftDiv-header-options'}  >
 						{
-							user.friendList && user.friendList.length > 0 ?
+							user.friendRequests && user.friendRequests.length > 0 ?
 								<i onClick={openFriendRequests} class="fas fa-exclamation dashboard-leftDiv-header-options-friendRequests"></i> : null
 						}
 						<i onClick={toggleMenu} className="fas fa-bars"></i>
@@ -126,9 +124,9 @@ const Dashboard = ({ logout, user, setUserInfo, addFriendRequest, ...rest }) => 
 				</div>
 
 				{
-					user.friendList && user.friendList.length > 0 ?
+					user.friendRequests && user.friendRequests.length > 0 ?
 						<div className={'dashboard-leftDiv-friendRequests'} style={friendRequestsStyle} >
-							<FriendRequests requests={user.friendList} />
+							<FriendRequests requests={user.friendRequests} />
 						</div> : null
 				}
 			</div>

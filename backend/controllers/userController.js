@@ -8,6 +8,7 @@ const getUserInfo = async (req, res) => {
 		return res.status(200).json({
 			displayName: user.displayName ? user.displayName : '',
 			friendList: user.friendList ? user.friendList : [],
+			friendRequests: user.friendRequests,
 			username: user.username ? user.username : '',
 			image: user.image ? user.image : '',
 			status: user.status ? user.status : ''

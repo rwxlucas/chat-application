@@ -8,7 +8,7 @@ const userSchema = new Schema({
 	displayName: { type: String },
 	status: { type: String },
 	friendList: { type: Array },
-	friendRequests: { type: Array },
+	friendRequests: { type: Array, default: [] },
 	created: { type: Date, default: Date.now }
 });
 

@@ -20,4 +20,8 @@ export const sendAddRequest = (username, target) => {
 	socket.emit('friendRequest', { username, target });
 }
 
+export const acceptFriendRequest = () => {
+	
+}
+
 export const disconnectSocket = (user) => socket.emit('disconnectClient', user);
