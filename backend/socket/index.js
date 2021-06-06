@@ -1,19 +1,15 @@
+const User = require('../models/user');
+const friend = require('./friend');
 const message = require('./message');
+const user = require('./user');
 
 const socketMap = new Map();
 
-const onConnection = (io, client) => {
-	console.log(`${client.id} connected`);
-	if(!socketMap.has(client.id)) socketMap.set(client.id, `${client.id} user`);
+const onConnection = async (io, client) => {
 	message(io, client);
-	
-	client.on('disconnectClient', () => {
-		client.disconnect();
-	});
-	client.on('disconnect', () => {
-		socketMap.delete(client.id);
-		console.log(`${client.id} disconnected`);
-	});
+	friend(io, client, socketMap);
+	user(io, client, socketMap);
+
 }
 
 module.exports = onConnection

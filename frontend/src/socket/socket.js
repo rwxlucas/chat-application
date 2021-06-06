@@ -1,13 +1,23 @@
 import { io } from 'socket.io-client';
 
-let socket;
+export let socket;
 
-export const socketInit = () => {
-	socket = io("http://localhost:4000");
+const setUser = (username) => {
+	socket.emit('setUser', username);
 }
+
+export const socketInit = username => {
+	socket = io("http://localhost:4000");
+	setUser(username);
+}
+
 
 export const sendMessage = () => {
 	socket.emit('chat message', 'aa');
 }
 
-export const disconnectSocket = () => socket.emit('disconnectClient');
+export const sendAddRequest = (username, target) => {
+	socket.emit('friendRequest', { username, target });
+}
+
+export const disconnectSocket = (user) => socket.emit('disconnectClient', user);

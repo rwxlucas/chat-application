@@ -97,7 +97,7 @@ const Settings = ({ back, user, setUserInfo }) => {
 					<Input
 						inpActive={editStatus}
 						inpClass={'settingsInput'}
-						placeholder={user.status}
+						placeholder={user.status ? user.status : 'Status'}
 						inpDisabled={!editStatus}
 						inputValue={userStatus}
 						setInputValue={setUserStatus} />

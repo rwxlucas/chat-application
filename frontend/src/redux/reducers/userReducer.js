@@ -1,4 +1,4 @@
-import { SET_USER_INFO } from '../actions/userAction';
+import { SET_USER_INFO, ADD_FRIEND_REQUEST } from '../actions/userAction';
 
 const initialState = {};
 
@@ -9,6 +9,11 @@ export const userReducer = (state = initialState, action) => {
                 ...state,
                 ...action.payload
             };
+        case ADD_FRIEND_REQUEST:
+            return {
+                ...state,
+                friendList: [...state.friendList, action.payload]
+            }
         default: return state;
     };
 };

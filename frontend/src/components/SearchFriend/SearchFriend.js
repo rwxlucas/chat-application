@@ -1,21 +1,23 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import Input from '../Input/Input';
+import { sendAddRequest } from '../../socket/socket'
+import { connect } from 'react-redux';
 
 import './SearchFriend.scss';
 
-const SearchFriend = ({ value, setValue, back, icon, exec, users }) => {
+const SearchFriend = ({ user, value, setValue, back, icon, exec, users }) => {
 
 	const renderResponse = () => {
 		if (users === null) return null;
-		if (users.length > 0) return users.map(((user, index) =>
+		if (users.length > 0) return users.map(((item, index) =>
 			<div key={`addFriendDivResponse${index}`} >
 				<div>
-					<img src={user.image} alt={`${user.username} photo`} />
+					{item.image ? <img src={item.image} alt={`${item.displayName} photo`} /> : <i className="fas fa-user"></i>}
 				</div>
 				<div>
-					{user.username}
+					{item.displayName}
 				</div>
+				<button onClick={() => { sendAddRequest(user.username, item.username) }} >Add</button>
 			</div>
 		))
 		else return (<div> User not found! </div>)
@@ -36,10 +38,14 @@ const SearchFriend = ({ value, setValue, back, icon, exec, users }) => {
 
 			</div>
 			<div className={'searchDiv-usersDiv'} >
-				{ renderResponse() }
+				{renderResponse()}
 			</div>
 		</div>
 	)
 }
 
-export default SearchFriend
+const mapStateToProps = (state) => ({
+	user: state.user
+});
+
+export default connect(mapStateToProps, null)(SearchFriend);
