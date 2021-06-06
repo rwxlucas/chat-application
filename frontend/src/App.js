@@ -7,7 +7,7 @@ import ProtectedRoute from './auth/ProtectedRoute'
 
 import './App.scss';
 
-const App = ({ auth, ...rest }) => {
+const App = ({ auth, ...rest}) => {
   return (
     <div>
       <BrowserRouter>

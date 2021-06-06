@@ -21,15 +21,11 @@ const updateUserInfo = async (req, res) => {
 	const { displayName, status, image } = req.body;
 	if(!userID) return res.status(400).json(({message: 'UserID not provided'}));
 	try {
-		const updateUser = await User.findByIdAndUpdatefindById(userID, {
-			displayName,
-			status,
-			image
-		});
-		console.log(updateUser);
-		return res.status(200).json({message: 'User updated'})
+		await User.findByIdAndUpdate(userID, { displayName, status, image });
+		return res.status(200).json({message: 'User updated'});
 	} catch (error) {
-		return res.status(500).json({message});
+		console.log(error)
+		return res.status(500).json({error});
 	}
 }
 

@@ -3,26 +3,58 @@ import { processFile } from '../../utils/utils';
 import { connect } from 'react-redux';
 import { setUserInfoAction } from '../../redux/actions/userAction';
 import { setUserInfo as setUserInfoService } from '../../services/userService'
+import Input from '../../components/Input/Input'
 
 import './Settings.scss';
-const Settings = ({ back, user }) => {
+const Settings = ({ back, user, setUserInfo }) => {
 	const [editName, setEditName] = useState(false);
 	const [editStatus, setEditStatus] = useState(false);
+	const [userDisplayName, setUserDisplayName] = useState('');
+	const [userStatus, setUserStatus] = useState('');
 	const [image, setImage] = useState('');
 
 	const iconDivStyle = { border: !image ? '1px solid #222' : '' };
 	const imageConfig = async (e) => {
-		if(e.target.files.length < 0) return;
+		if (e.target.files.length < 0) return;
 		const file = e.target.files[0]
 		const uploadedImage = await processFile(file);
 		setImage(`${uploadedImage}`);
-		const teste = await setUserInfoService('Lucas Faria', 'Programando', uploadedImage);
-		console.log(teste);
+		try {
+			const updatedInfo = await setUserInfoService(user.displayName, user.status, uploadedImage);
+			setUserInfo(updatedInfo);
+		} catch (error) {
+			console.log(error)
+		}
 	};
 
+	const uploadUserDisplay = async () => {
+		if (editName && userDisplayName !== user.displayName) {
+			try {
+				const updatedInfo = await setUserInfoService(userDisplayName, user.status, user.image);
+				setUserInfo(updatedInfo);
+			} catch (error) {
+				console.log(error);
+			}
+		}
+		setEditName(!editName);
+	}
+
+	const uploadUserStatus = async () => {
+		if (editStatus && userStatus !== user.status) {
+			try {
+				const updatedInfo = await setUserInfoService(user.displayName, userStatus, user.image);
+				setUserInfo(updatedInfo);
+			} catch (error) {
+				console.log(error);
+			}
+		}
+		setEditStatus(!editStatus);
+	}
+
 	useEffect(() => {
-		console.log(user)
-	}, [])
+		setUserDisplayName(user.displayName);
+		setUserStatus(user.status);
+	}, [user.displayName, user.status])
 
 	return (
 		<div className={'settings'}>
@@ -36,7 +68,7 @@ const Settings = ({ back, user }) => {
 					<div>
 						<i className="fas fa-camera"></i>
 					</div>
-					<img src={image} />
+					<img src={user.image} />
 					<label htmlFor="imageUploader">
 					</label>
 					<input onChange={e => imageConfig(e)} accept="image/*" type="file" id="imageUploader" />
@@ -45,13 +77,37 @@ const Settings = ({ back, user }) => {
 
 			<div className={"settings-info"} >
 				<div className={editName ? 'active' : ''} >
-					<div>Name</div>
-					<div><i onClick={() => setEditName(!editName)} className="fas fa-pen"></i></div>
+					<Input
+						inpActive={editName}
+						inpClass={'settingsInput'}
+						placeholder={user.displayName}
+						inpDisabled={!editName}
+						inputValue={userDisplayName}
+						setInputValue={setUserDisplayName} />
+					<div>
+						{
+							!editName ?
+								<i onClick={() => uploadUserDisplay()} className="fas fa-pen"></i>:
+								<i onClick={() => uploadUserDisplay()} className="fas fa-check"></i>
+						}
+					</div>
 				</div>
 
 				<div className={editStatus ? 'active' : ''} >
-					<div >Status</div>
-					<div><i onClick={() => setEditStatus(!editStatus)} className="fas fa-pen"></i></div>
+					<Input
+						inpActive={editStatus}
+						inpClass={'settingsInput'}
+						placeholder={user.status}
+						inpDisabled={!editStatus}
+						inputValue={userStatus}
+						setInputValue={setUserStatus} />
+					<div>
+						{
+							!editStatus ?
+								<i onClick={() => uploadUserStatus()} className="fas fa-pen"></i> :
+								<i onClick={() => uploadUserStatus()} className="fas fa-check"></i>
+						}
+					</div>
 				</div>
 			</div>
 		</div>

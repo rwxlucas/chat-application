@@ -17,6 +17,29 @@
 	}
 }
 
+.settingsInput {
+	background-color: transparent;
+	width: 100%;
+	height: 100%;
+	> input {
+		width: 100%;
+		height: 90%;
+		padding-left: 10px;
+		background-color: transparent;
+		border: none;
+		outline: none;
+		color: #fff;
+		font-size: 15px;
+		&:focus {
+			color: orangered;
+		}
+		&::placeholder{
+			color: #fff;
+			font-size: 15px;
+		}
+	}
+}
+
 .icon {
 	> input {
 		padding-left: 30px;

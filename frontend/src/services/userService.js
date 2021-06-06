@@ -15,14 +15,14 @@ export const getUserInfo = () => {
 export const setUserInfo = (displayName,status,image) => {
 	return new Promise(async (resolve, reject) => {
 		try {
-			return resolve(await axios.post(`http://localhost:4000/user/update`, {
-				headers: { 'xauthorization': localStorage.getItem("xauthorization") },
-				body: {
-					displayName,
-					status,
-					image
-				}
-			}));
+			await axios.post(`http://localhost:4000/user/update`, {
+				displayName, 
+				status,
+				image
+			},{
+				headers: { 'xauthorization': localStorage.getItem("xauthorization") }
+			})
+			return resolve({displayName, status, image});
 		} catch (error) {
 			return reject(error)
 		}

@@ -36,7 +36,7 @@ const SearchFriend = ({ value, setValue, back, icon, exec, users }) => {
 
 			</div>
 			<div className={'searchDiv-usersDiv'} >
-				{renderResponse()}
+				{ renderResponse() }
 			</div>
 		</div>
 	)

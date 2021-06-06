@@ -69,9 +69,16 @@ $leftDivSearchChatHeight: 60px;
 			}
 			&-options {
 				margin-left: auto;
-				cursor: pointer;
 				position: relative;
+				&-menu {
+
+				}
+				&-friendRequests {
+					margin-right: 25px;
+					color: #f00;
+				}
 				> i {
+					cursor: pointer;
 					font-size: 20px;
 				}
 			}
@@ -146,6 +153,12 @@ $leftDivSearchChatHeight: 60px;
 			}
 		}
 		&-removeFriend {
+			width: 100%;
+			transition: transform ease-in-out 0.5s;
+			position: absolute;
+			top: $leftDivHeaderHeight;
+		}
+		&-friendRequests {
 			width: 100%;
 			transition: transform ease-in-out 0.5s;
 			position: absolute;

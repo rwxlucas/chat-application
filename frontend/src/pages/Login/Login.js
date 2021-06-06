@@ -5,7 +5,7 @@ import authService from '../../services/authService'
 import { Link } from 'react-router-dom'
 import "./Login.scss"
 
-const Login = (props) => {
+const Login = ({ login }) => {
 	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
 
@@ -13,14 +13,13 @@ const Login = (props) => {
 		e.preventDefault();
 		try {
 			const loginRequest = await authService.login(username, password);
-			localStorage.setItem("xauthorization", loginRequest.data.xauthorization);
-			props.login(loginRequest.data.xauthorization);
+			login(loginRequest.data.xauthorization);
 		} catch (error) {
 			if (error) {
 				setUsername('');
 				setPassword('');
 				e.target.username.focus();
-				if(error.response) alert(error.response.data.message);
+				if (error.response) alert(error.response.data.message);
 			}
 		}
 	}

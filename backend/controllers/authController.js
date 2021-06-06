@@ -8,7 +8,7 @@ const register = async (req, res) => {
 	if (!username || !password || !email) return res.status(400).json({ message: 'Incorrect request' });
 	const hasUser = await User.findOne({ username });
 	if (hasUser) return res.status(400).json({ message: 'User already exists' });
-	const newUser = new User({ username, password: await bcrypt.hash(password, 10), email });
+	const newUser = new User({ username, password: await bcrypt.hash(password, 10), email, displayName: username });
 	await newUser.save()
 	return res.status(200).json({ message: 'User created' });
 }
