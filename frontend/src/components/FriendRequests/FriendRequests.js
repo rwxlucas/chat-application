@@ -1,15 +1,28 @@
 import React, { useEffect } from 'react';
-import { add } from '../../services/friendService'
 import { connect } from 'react-redux';
-import { removeFriendRequestAction } from '../../redux/actions/userAction';
+import { removeFriendRequestAction, acceptUserRequestAction } from '../../redux/actions/userAction';
+import { add, removeRequest } from '../../services/friendService'
 
 import './FriendRequests.scss';
-const FriendRequests = ({ requests, removeFriendRequest, active }) => {
+const FriendRequests = ({ requests, removeFriendRequest, acceptUserRequest, active, back }) => {
 
-	const decline = () => {};
+	const declineUser = (username) => {
+		removeRequest(username);
+		removeFriendRequest(username);
+		requests = requests.filter(item => item.username != username);
+		if(requests.length == 0) back();
+	};
+	const acceptUser = (username) => {
+		add(username);
+		acceptUserRequest(username);
+		requests = requests.filter(item => item.username != username);
+		if(requests.length == 0) back();
+	}
 
 	return (<>
-		<div className={'friendRequestsHeader'} >Friend Requests</div>
+		<div className={'friendRequestsHeader'} >
+			<i onClick={back} className={"fas fa-arrow-left"}></i>	Friend Requests
+		</div>
 		{
 			requests.map((req, index) => (
 				<div key={`friendRequestDiv${index}`} className={`friendRequests ${active ? 'active' : ''}`}>
@@ -19,8 +32,8 @@ const FriendRequests = ({ requests, removeFriendRequest, active }) => {
 					<div>
 						<div> {req.name} </div>
 						<div>
-							<div onClick={() => add(req.username)} ><i className="fas fa-check"></i></div>
-							<div onClick={() => removeFriendRequest(req.username)}><i  className="fas fa-times"></i></div>
+							<div onClick={() => acceptUser(req.username)} ><i className="fas fa-check"></i></div>
+							<div onClick={() => declineUser(req.username)}><i  className="fas fa-times"></i></div>
 						</div>
 					</div>
 				</div>
@@ -30,7 +43,8 @@ const FriendRequests = ({ requests, removeFriendRequest, active }) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-	removeFriendRequest: (user) => dispatch(removeFriendRequestAction(user))
+	removeFriendRequest: user => dispatch(removeFriendRequestAction(user)),
+	acceptUserRequest: user => dispatch(acceptUserRequestAction(user))
 });
 const mapStateToProps = (state) => ({
 	user: state.user

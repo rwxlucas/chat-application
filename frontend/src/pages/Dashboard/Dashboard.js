@@ -126,7 +126,7 @@ const Dashboard = ({ logout, user, setUserInfo, addFriendRequest, ...rest }) => 
 				{
 					user.friendRequests && user.friendRequests.length > 0 ?
 						<div className={'dashboard-leftDiv-friendRequests'} style={friendRequestsStyle} >
-							<FriendRequests requests={user.friendRequests} />
+							<FriendRequests back={openFriendRequests} requests={user.friendRequests} />
 						</div> : null
 				}
 			</div>

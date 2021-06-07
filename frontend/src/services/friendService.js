@@ -25,3 +25,17 @@ export const add = (username) => {
 		}
 	})
 }
+
+export const removeRequest = (username) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			return resolve(await axios.post(`http://localhost:4000/friend/removeRequest`, {
+				target: username
+			}, {
+				headers: { 'xauthorization': localStorage.getItem("xauthorization") }
+			}));
+		} catch (error) {
+			return reject(error)
+		}
+	})
+}

@@ -9,7 +9,7 @@ const onConnection = require('./socket/index');
 
 const app = express();
 const server = createServer(app);
-const io = require('socket.io')(server, {
+const io = require('socket.io')( server, {
 	cors: { origin: 'http://localhost:3000' }
 });
 

@@ -2,6 +2,12 @@ $leftDivHeaderHeight: 70px;
 
 .friendRequestsHeader {
 	padding: 10px 15px;
+	> i {
+		margin-right: 10px;
+		&:hover{
+			cursor: pointer;
+		}
+	}
 }
 
 .friendRequests {

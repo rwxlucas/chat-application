@@ -28,7 +28,19 @@ const add = async (req, res) => {
 	return res.status(404).json({ message: 'User not found!' });
 }
 
+const removeRequest = async (req, res) => {
+	const { target } = req.body;
+	if (!target) return res.status(400).json({ message: 'Incorrect request' });
+	try {
+		const target = await User.findOne({username: target});
+		return res.status(200).json({teste: target.friendRequests});
+	} catch (error) {
+		if (error) return res.status(500).json({ error });
+	}
+}
+
 module.exports = {
 	add,
-	searchUser
+	searchUser,
+	removeRequest
 }
