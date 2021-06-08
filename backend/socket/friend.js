@@ -1,13 +1,12 @@
 const User = require('../models/user');
 
-module.exports = (io, socket, socketMap) => {
+const friend = (io, socket, socketMap) => {
 	const friendRequest = async payload => {
 		const { username, target } = payload;
 		try {
 			const requester = await User.findOne({ username });
 			const receiver = await User.findOne({ username: target });
-			if (requester && requester.friendList.includes(receiver.id)) return;
-			console.log('alo')
+			if (requester && requester.friendList.includes(receiver.id)) {;return};
 			const socketReceiver = socketMap.get(receiver.username);
 			const userRequest = { name: requester.displayName, username: requester.username, image: requester.image };
 			if (socketReceiver) socketReceiver.emit('friendRequest', userRequest);
@@ -23,4 +22,8 @@ module.exports = (io, socket, socketMap) => {
 
 	socket.on('friendRequest', friendRequest);
 	socket.on('acceptRequest', friendRequest);
+}
+
+module.exports = {
+	friend
 }

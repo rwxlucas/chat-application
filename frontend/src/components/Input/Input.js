@@ -2,7 +2,7 @@ import React from 'react'
 
 import './Input.scss'
 
-const Input = ({ icon, placeholder, inputValue, setInputValue, inpClass, inpDisabled }) => {
+const Input = ({ icon, iconPos, placeholder, inputValue, setInputValue, inpClass, inpDisabled }) => {
 
 	return (
 		<div className={`${icon ? 'icon' : ''} ${inpClass ? inpClass : 'input'}`} >

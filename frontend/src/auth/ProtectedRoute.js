@@ -7,7 +7,7 @@ const ProtectedRoute = ({component: Component, auth, ...rest}) => {
 		<Route 
 			{...rest}
 			component={props => (
-				auth || localStorage.getItem("xauthorization") ? <Component {...props} /> : <Redirect to={'/login'} exact />
+				auth || localStorage.getItem('xauthorization') ? <Component {...props} /> : <Redirect to={'/login'} exact />
 			)}
 		/>
 	)

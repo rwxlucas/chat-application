@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const { getClientSocket } = require('../socket');
 
 const searchUser = async (req, res) => {
 	const { username } = req.params;
@@ -17,7 +18,11 @@ const add = async (req, res) => {
 			if (targetUser.friendList.includes(requesterUser.id)) return res.status(400).json({ message: `${requesterUser.username} is already a friend` });
 			if (requesterUser.friendList.includes(targetUser.id)) return res.status(400).json({ message: `${targetUser.username} is already a friend` });
 			targetUser.friendList.push(requesterUser.id);
+			targetUser.friendRequests = targetUser.friendRequests.filter(item => item.username !== requesterUser.username);
 			requesterUser.friendList.push(targetUser.id);
+			requesterUser.friendRequests = requesterUser.friendRequests.filter(item => item.username !== targetUser.username);
+			const requesterSocket = getClientSocket(requesterUser.username);
+			if(requesterSocket) requesterSocket.emit('friendRequestAccepted', targetUser.username);
 			await targetUser.save();
 			await requesterUser.save();
 			return res.status(200).json({ message: 'Friend added' });
@@ -30,11 +35,15 @@ const add = async (req, res) => {
 
 const removeRequest = async (req, res) => {
 	const { target } = req.body;
+	const { id } = req.headers;
 	if (!target) return res.status(400).json({ message: 'Incorrect request' });
 	try {
-		const target = await User.findOne({username: target});
-		return res.status(200).json({teste: target.friendRequests});
+		const user = await User.findById(id);
+		user.friendRequests = user.friendRequests.filter(item => item.username !== target);
+		await user.save();
+		return res.status(200).json({message: 'Request successfully deleted'});
 	} catch (error) {
+		console.log(error);
 		if (error) return res.status(500).json({ error });
 	}
 }

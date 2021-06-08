@@ -53,10 +53,45 @@
 		background-color: #222;
 		padding: 10px 50px;
 		overflow: hidden auto;
+		&-messageUser, &-messageFriend {
+			font-size: 16px;
+			width: max-content;
+			max-width: 60%;
+			padding: 10px;
+			background-color: #333;
+			border-top-left-radius: 10px;
+			border-bottom-left-radius: 10px;
+			border-top-right-radius: 10px;
+			margin-top: 20px;
+			> div {
+				&:first-of-type {
+					font-size: 15px;
+				}
+				&:last-of-type {
+					text-align: end;
+					font-size: 11px;
+				}
+			}
+		}
+		&-messageUser {
+			margin-left: auto;
+		}
+		&-messageFriend {
+			margin-right: auto;
+			background-color: #777;
+			border-radius: 0px;
+			border-top-right-radius: 10px;
+			border-bottom-right-radius: 10px;
+			border-bottom-left-radius: 10px;
+		}
 	}
 	&-footer {
 		grid-area: footer;
 		background-color: #333;
 		border-top: 1px solid #333;
+		> form {
+			height: 100%;
+			width: 100%;
+		}
 	}
 }

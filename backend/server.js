@@ -5,7 +5,7 @@ const { dbInit } = require('./db');
 const { PORT } = require('./keys')
 const routes = require('./routes/index');
 const cors = require('cors');
-const onConnection = require('./socket/index');
+const { onConnection } = require('./socket/index');
 
 const app = express();
 const server = createServer(app);
