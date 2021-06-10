@@ -8,6 +8,13 @@ const searchUser = async (req, res) => {
 	return res.status(404).json({ message: 'User not found!' });
 }
 
+const searchUserById = async (req, res) => {
+	const { id } = req.params;
+	const person = await User.findById(id);
+	if (person) return res.status(200).json({ id: person.id, username: person.username, displayName: person.displayName, image: person.image });
+	return res.status(404).json({ message: 'User not found!' });
+}
+
 const add = async (req, res) => {
 	const { target } = req.body;
 	if (!target) return res.status(400).json({ message: 'Incorrect request' });
@@ -51,5 +58,6 @@ const removeRequest = async (req, res) => {
 module.exports = {
 	add,
 	searchUser,
-	removeRequest
+	removeRequest,
+	searchUserById
 }

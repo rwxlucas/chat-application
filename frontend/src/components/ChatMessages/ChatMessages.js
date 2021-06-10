@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux';
 import Input from '../Input/Input';
+import { sendMessage as socketSendMessage } from '../../socket/socket';
+import { loadMessagesAction } from '../../redux/actions/chatAction';
+import moment from 'moment';
 import './ChatMessages.scss';
 
-const ChatMessages = ({ chat, user }) => {
-
-	useEffect(() => {
-		console.log(chat);
-	}, [])
-
+const ChatMessages = ({ chat, user, loadMessage }) => {
 	const [msgInput, setMsgInput] = useState('');
 
 	const chatMessagesStyle = {
@@ -16,19 +14,26 @@ const ChatMessages = ({ chat, user }) => {
 	}
 
 	const renderMessages = () => {
-		return chat.messages.map(msg => (
-			<div className={`chatMessages-body-${msg.username == user.username ? 'messageUser' : 'messageFriend'}`} >
-				<div> {msg.message} </div>
-				<div> {msg.date} </div>
-			</div>
-		))
+		if (chat.messages.length > 0) {
+			return chat.messages.map(msg => (
+				<div className={`chatMessages-body-${msg.username == user.username ? 'messageUser' : 'messageFriend'}`} >
+					<div> {msg.message} </div>
+					<div> {msg.date} </div>
+				</div>
+			))
+		}
 	};
 
-	const sendMessage = e => {
+	const sendMessage = (e) => {
 		e.preventDefault();
-		console.log(msgInput);
+		loadMessage({username: user.username, message: msgInput, date: moment()}); // DANDO ERRO AQUI
+		socketSendMessage(chat.name, msgInput, user.username);
 		setMsgInput('');
 	}
+
+	useEffect(() => {
+		console.log(chat);
+	}, [chat])
 
 	return (
 		<div className={'chatMessages'} style={chatMessagesStyle} >
@@ -40,7 +45,7 @@ const ChatMessages = ({ chat, user }) => {
 				{renderMessages()}
 			</div>
 			<div className={'chatMessages-footer'} >
-				<form onSubmit={e => sendMessage(e)} >
+				<form onSubmit={(e) => sendMessage(e)} >
 					<Input inputValue={msgInput} setInputValue={setMsgInput} />
 				</form>
 			</div>
@@ -54,4 +59,8 @@ const mapStateToProps = (state) => ({
 	user: state.user
 })
 
-export default connect(mapStateToProps, null)(ChatMessages);
+const mapDispatchToProps = (dispatch) => ({
+	loadMessage: msg => dispatch(loadMessagesAction(msg))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChatMessages);

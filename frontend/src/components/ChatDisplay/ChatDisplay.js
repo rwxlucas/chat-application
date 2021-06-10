@@ -1,34 +1,36 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { openChatAction, loadMessagesAction } from '../../redux/actions/chatAction'
 import './ChatDisplay.scss'
 
-const ChatDisplay = ({image, name, time, message, active, open}) => {
+const ChatDisplay = ({friends, active, open}) => {
 
-	const openMessagesChat = () => {
-		open(name, image)
-	}
+	const openMessagesChat = (displayName, image, id) => open(displayName, image, id);
 
-	return (
-		<div onClick={openMessagesChat} className={`chatDisplay ${active ? 'active' : ''}`}>
-			<div>
-				<img src={image} alt={`${name} photo`} />
-			</div>
-			<div>
+	const renderFriendList = () => friends.map((user, index) => (
+		(
+			<div key={`friendList${index}`} onClick={() => openMessagesChat(user.username, user.image, user.id)} className={`chatDisplay ${active ? 'active' : ''}`}>
 				<div>
-					<span>{name}</span>
-					<span>{time}</span>
+					<img src={user.image} alt={`${user.displayName} photo`} />
 				</div>
 				<div>
-					<span>{message}</span>
+					<div>
+						<span>{user.displayName}</span>
+						<span>{'08:00'}</span>
+					</div>
+					<div>
+						<span>{'message'}</span>
+					</div>
 				</div>
 			</div>
-		</div>
-	)
+		)
+	))
+
+	return ( renderFriendList() )
 }
 
 const mapDispatchToProps = (dispatch) => ({
-	open: (name, image) => dispatch(openChatAction(name, image)),
+	open: (name, image, id) => dispatch(openChatAction(name, image, id)),
 	loadMessages: (messages) => dispatch(loadMessagesAction(messages))
 });
 
