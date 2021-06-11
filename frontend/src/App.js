@@ -7,12 +7,12 @@ import ProtectedRoute from './auth/ProtectedRoute'
 
 import './App.scss';
 
-const App = ({ auth, ...rest}) => {
+const App = ({ auth }) => {
   return (
     <div>
       <BrowserRouter>
         <Switch>
-          <ProtectedRoute path={'/'} exact auth={auth} exact component={Dashboard} />
+          <ProtectedRoute path={'/'} exact component={Dashboard} />
           <Route path={'/login'} render={() => auth ? <Redirect to={'/'} /> : <Login />} />
           <Route path={'/register'} render={() => auth ? <Redirect to={'/'} /> : <Register />} />
         </Switch>

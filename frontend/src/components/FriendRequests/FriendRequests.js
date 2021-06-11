@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { removeFriendRequestAction, acceptUserRequestAction } from '../../redux/actions/userAction';
 import { add, removeRequest } from '../../services/friendService'
@@ -9,14 +9,14 @@ const FriendRequests = ({ requests, removeFriendRequest, acceptUserRequest, acti
 	const declineUser = (username) => {
 		removeRequest(username);
 		removeFriendRequest(username);
-		requests = requests.filter(item => item.username != username);
-		if(requests.length == 0) back();
+		requests = requests.filter(item => item.username !== username);
+		if(requests.length === 0) back();
 	};
 	const acceptUser = (username) => {
 		add(username);
 		acceptUserRequest(username);
-		requests = requests.filter(item => item.username != username);
-		if(requests.length == 0) back();
+		requests = requests.filter(item => item.username !== username);
+		if(requests.length === 0) back();
 	}
 
 	return (<>
@@ -27,7 +27,7 @@ const FriendRequests = ({ requests, removeFriendRequest, acceptUserRequest, acti
 			requests.map((req, index) => (
 				<div key={`friendRequestDiv${index}`} className={`friendRequests ${active ? 'active' : ''}`}>
 					<div>
-						<img src={req.image} alt={`${req.name} photo`} />
+						<img src={req.image} alt={`${req.name}`} />
 					</div>
 					<div>
 						<div> {req.name} </div>

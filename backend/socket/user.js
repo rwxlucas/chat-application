@@ -4,7 +4,14 @@ module.exports = (io, client, socketMap) => {
 	const setUser = async payload => {
 		try {
 			const user = await User.findOne({username: payload});
-			if(!socketMap.has(user.username)) socketMap.set(user.username, client);
+			if(socketMap.has(user.username)){
+				const removeSocketUser = socketMap.get(user.username);
+				removeSocketUser.disconnect();
+				socketMap.delete(user.username);
+				socketMap.set(user.username, client);
+				return
+			} 
+			socketMap.set(user.username, client);
 	} catch (error) {
 			console.log(error);
 		}

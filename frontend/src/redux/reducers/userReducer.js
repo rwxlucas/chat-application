@@ -17,12 +17,12 @@ export const userReducer = (state = initialState, action) => {
         case REMOVE_FRIEND_REQUEST:
             return {
                 ...state,
-                friendRequests: state.friendRequests.filter(item => item.username != action.payload)
+                friendRequests: state.friendRequests.filter(item => item.username !== action.payload)
             };
         case ACCEPT_USER_REQUEST:
             return {
                 ...state,
-                friendRequests: state.friendRequests.filter(item => item.username != action.payload)
+                friendRequests: state.friendRequests.filter(item => item.username !== action.payload)
             };
         default: return state;
     };

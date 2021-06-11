@@ -11,12 +11,12 @@ export const socketInit = username => {
 }
 
 
-export const sendMessage = (id, message, sender) => socket.emit('chat message', {sender ,id, message, date: moment()});
+export const sendMessage = (id, message, sender) => socket.emit('chat message', { sender, id, message, date: moment().format('LT') });
 
 export const sendAddRequest = (username, target) => socket.emit('friendRequest', { username, target });
 
 export const acceptFriendRequest = () => {
-	
+
 }
 
 export const disconnectSocket = (user) => socket.emit('disconnectClient', user);

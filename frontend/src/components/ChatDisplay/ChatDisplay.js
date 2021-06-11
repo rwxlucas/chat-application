@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { openChatAction, loadMessagesAction } from '../../redux/actions/chatAction'
 import './ChatDisplay.scss'
@@ -11,7 +11,7 @@ const ChatDisplay = ({friends, active, open}) => {
 		(
 			<div key={`friendList${index}`} onClick={() => openMessagesChat(user.username, user.image, user.id)} className={`chatDisplay ${active ? 'active' : ''}`}>
 				<div>
-					<img src={user.image} alt={`${user.displayName} photo`} />
+					<img src={user.image} alt={`${user.displayName}`} />
 				</div>
 				<div>
 					<div>

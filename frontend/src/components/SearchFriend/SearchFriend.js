@@ -12,7 +12,7 @@ const SearchFriend = ({ user, value, setValue, back, icon, exec, users }) => {
 		if (users.length > 0) return users.map(((item, index) =>
 			<div key={`addFriendDivResponse${index}`} >
 				<div>
-					{item.image ? <img src={item.image} alt={`${item.displayName} photo`} /> : <i className="fas fa-user"></i>}
+					{item.image ? <img src={item.image} alt={`${item.displayName}`} /> : <i className="fas fa-user"></i>}
 				</div>
 				<div>
 					{item.displayName}

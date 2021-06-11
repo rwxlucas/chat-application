@@ -10,12 +10,13 @@ import ChatMessages from '../../components/ChatMessages/ChatMessages';
 import { searchUser as searchUserService, searchUserById } from '../../services/friendService';
 import { getUserInfo } from '../../services/userService';
 import { addFriendRequestAction, setUserInfoAction } from '../../redux/actions/userAction';
-import { socketInit, sendMessage, disconnectSocket } from '../../socket/socket';
+import { socketInit, disconnectSocket } from '../../socket/socket';
 import { socket } from '../../socket/socket'
 
 import './Dashboard.scss';
 import FriendRequests from '../../components/FriendRequests/FriendRequests';
 import { loadMessagesAction } from '../../redux/actions/chatAction';
+
 const Dashboard = ({ logout, user, setUserInfo, addFriendRequest, loadMessage, ...rest }) => {
 
 	const [searchChat, setSearchChat] = useState('');
@@ -25,9 +26,10 @@ const Dashboard = ({ logout, user, setUserInfo, addFriendRequest, loadMessage, .
 	const [toggleChatDiv, setToggleChatDiv] = useState(false);
 	const [toggleAddFriend, setToggleAddFriend] = useState(false);
 	const [toggleSettingsDiv, setToggleSettingsDiv] = useState(false);
-	const [chatMessageBol, setChatMessageBol] = useState(false);
+	// const [chatMessageBol, setChatMessageBol] = useState(false);
 	const [toggleFriendRequests, setToggleFriendRequests] = useState(false);
 	const [friendList, setFriendList] = useState([]);
+	const chatElement = document.getElementById('chatOverflow');
 
 	const chatDivStyle = { transform: toggleChatDiv ? 'translateX(-105%)' : '' };
 	const settingsDivStyle = { transform: toggleSettingsDiv ? '' : 'translateX(-105%)' };
@@ -37,7 +39,7 @@ const Dashboard = ({ logout, user, setUserInfo, addFriendRequest, loadMessage, .
 	const backToChatDiv = () => { setToggleChatDiv(false); setToggleAddFriend(false); setSearchUser(''); setSearchUserList(null); };
 	const toggleMenu = () => (setShowMenu(!showMenu));
 	const addFriendOption = () => { setToggleChatDiv(true); setToggleAddFriend(true); toggleMenu(); };
-	const openChatMessage = () => { setChatMessageBol(!chatMessageBol) };
+	// const openChatMessage = () => { setChatMessageBol(!chatMessageBol) };
 	const openFriendRequests = () => { setToggleChatDiv(!toggleChatDiv); setToggleFriendRequests(!toggleFriendRequests) };
 
 	const searchUserFunction = async () => {
@@ -55,22 +57,26 @@ const Dashboard = ({ logout, user, setUserInfo, addFriendRequest, loadMessage, .
 		{ name: 'Logout', exec: () => { logout(); disconnectSocket(user.username) } },
 	]
 
-	const friendRequest = (payload) => { addFriendRequest(payload) };
-	const handleMessage = payload => { loadMessage(payload); console.log(payload)};
+	const friendRequest = payload => { addFriendRequest(payload) };
+	const handleMessage = payload => {
+		loadMessage(payload);
+		if (chatElement && chatElement.scrollHeight) setTimeout(() => chatElement.scrollTop = chatElement.scrollHeight - chatElement.clientHeight, 1);
+	};
 
-	useEffect(async () => {
-		const userInfo = await getUserInfo();
-		setUserInfo(userInfo.data);
-		socketInit(userInfo.data.username);
-		const friends = [];
-		for(const user of userInfo.data.friendList){
-			const response = await searchUserById(user).catch(err => console.log(err));
-			friends.push(response.data);
-		}
-		setFriendList(friends);
-		
-		socket.on('friendRequest', (payload) => friendRequest(payload));
-		socket.on('chat message', (payload) => handleMessage(payload));
+	useEffect(() => {
+		(async () => {
+			const userInfo = await getUserInfo();
+			setUserInfo(userInfo.data);
+			socketInit(userInfo.data.username);
+			const friends = [];
+			for (const user of userInfo.data.friendList) {
+				const response = await searchUserById(user).catch(err => console.log(err));
+				friends.push(response.data);
+			}
+			setFriendList(friends);
+			socket.on('friendRequest', (payload) => friendRequest(payload));
+			socket.on('chat message', (payload) => handleMessage(payload));
+		})();
 	}, [])
 
 	return (
@@ -104,7 +110,7 @@ const Dashboard = ({ logout, user, setUserInfo, addFriendRequest, loadMessage, .
 					</div>
 
 					<div className={'dashboard-leftDiv-chatDiv-chats'} >
-						<ChatDisplay friends={friendList}/>
+						<ChatDisplay friends={friendList} />
 					</div>
 				</div>
 
