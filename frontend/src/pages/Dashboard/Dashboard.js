@@ -64,18 +64,20 @@ const Dashboard = ({ logout, user, setUserInfo, addFriendRequest, loadMessage, .
 	};
 
 	useEffect(() => {
-		(async () => {
-			const userInfo = await getUserInfo();
-			setUserInfo(userInfo.data);
-			socketInit(userInfo.data.username);
-			const friends = [];
-			for (const user of userInfo.data.friendList) {
-				const response = await searchUserById(user).catch(err => console.log(err));
-				friends.push(response.data);
-			}
-			setFriendList(friends);
-			socket.on('friendRequest', (payload) => friendRequest(payload));
-			socket.on('chat message', (payload) => handleMessage(payload));
+		(() => {
+			setTimeout(async () => {
+				const userInfo = await getUserInfo();
+				setUserInfo(userInfo.data);
+				socketInit(userInfo.data.username);
+				const friends = [];
+				for (const user of userInfo.data.friendList) {
+					const response = await searchUserById(user).catch(err => console.log(err));
+					friends.push(response.data);
+				}
+				setFriendList(friends);
+				socket.on('friendRequest', (payload) => friendRequest(payload));
+				socket.on('chat message', (payload) => handleMessage(payload));
+			}, 200);
 		})();
 	}, [])
 
