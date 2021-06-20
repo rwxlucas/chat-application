@@ -1,11 +1,17 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { openChatAction, loadMessagesAction } from '../../redux/actions/chatAction'
+import { openChatAction, loadMessagesAction, closeChatAction } from '../../redux/actions/chatAction'
 import './ChatDisplay.scss'
 
-const ChatDisplay = ({friends, active, open}) => {
+const ChatDisplay = ({chat, close, friends, active, open}) => {
 
-	const openMessagesChat = (displayName, image, id) => open(displayName, image, id);
+	const openMessagesChat = (displayName, image, id) => {
+		if(chat.id && chat.id == id) open(displayName, image, id);
+		else {
+			close();
+			open(displayName, image, id);
+		}
+	};
 
 	const renderFriendList = () => friends.map((user, index) => (
 		(
@@ -31,8 +37,11 @@ const ChatDisplay = ({friends, active, open}) => {
 
 const mapDispatchToProps = (dispatch) => ({
 	open: (name, image, id) => dispatch(openChatAction(name, image, id)),
+	close: () => dispatch(closeChatAction()),
 	loadMessages: (messages) => dispatch(loadMessagesAction(messages))
 });
 
-
-export default connect(null, mapDispatchToProps)(ChatDisplay);
+const mapStateToProps = (state) => ({
+	chat: state.chat
+})
+export default connect(mapStateToProps, mapDispatchToProps)(ChatDisplay);

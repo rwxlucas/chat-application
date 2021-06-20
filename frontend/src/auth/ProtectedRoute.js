@@ -3,16 +3,16 @@ import { connect } from 'react-redux';
 import { Redirect, Route } from 'react-router-dom';
 import { loginAction, logoutAction } from '../redux/actions/authAction';
 
-const ProtectedRoute = ({component: Component, auth, login, logout, ...rest}) => {
+const ProtectedRoute = ({ component: Component, auth, login, logout, ...rest }) => {
 
 	useEffect(() => {
 		const token = localStorage.getItem('xauthorization');
-		if(token) login(token);
+		if (token) login(token);
 		else logout();
 	}, [])
 
 	return (
-		<Route 
+		<Route
 			{...rest}
 			component={props => (
 				auth ? <Component {...props} /> : <Redirect to={'/login'} exact />

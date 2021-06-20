@@ -24,7 +24,7 @@ export const chatReducer = (state = initialState, action) => {
 				messages: [...state.messages, action.payload]
 			};
 		case CLOSE_CHAT:
-			return { open: false };
+			return initialState;
 
 		default: return state;
 	};
